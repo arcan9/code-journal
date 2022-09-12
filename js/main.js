@@ -17,8 +17,11 @@ function handleSubmit(event) {
   var journalEntry = {
     title: titleInput,
     photoUrl: photoUrlInput,
-    notes: notesInput
+    notes: notesInput,
+    nextEntryId: data.nextEntryId
   };
+
+  journalEntry.nextEntryId = data.nextEntryId++;
 
   return journalEntry;
 
