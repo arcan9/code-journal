@@ -22,7 +22,7 @@
     <div class="code-journal-bg-color"><h3>Code Journal</h3></div>
     <div class="container">
       <div data-view="entry-form">
-        <form>
+        <form id="journal-entry">
           <div class="row">
             <div class="column-full column-half">
               <h1>New Entry</h1>
@@ -34,13 +34,14 @@
               <div><label for="title">Title</label></div>
               <input required autofocus type="text" id="title" name="title">
               <div><label for="photo-url">Photo URL</label></div>
-              <div><input required autofocus type="text" id="photo-url" name="photo url"></div>
+              <div><input required autofocus type="text" id="photo-url" name="photoUrl"></div>
             </div>
             <div class="column-full">
               <div><label for="notes">Notes</label></div>
               <div>
                 <textarea required autofocus id="notes" name="notes" cols="30" rows="10"></textarea>
               </div>
+              <button type="submit">save</button>
             </div>
           </div>
         </form>

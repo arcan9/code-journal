@@ -1,6 +1,25 @@
 var $photoUrl = document.querySelector('#photo-url');
-$photoUrl.addEventListener('input', function (event) {
+$photoUrl.addEventListener('input', function () {
 
   var $photoEntry = document.querySelector('#photoEntry');
   $photoEntry.setAttribute('src', $photoUrl.value);
 });
+
+var $entryForm = document.querySelector('#journal-entry');
+$entryForm.addEventListener('submit', handleSubmit);
+
+function handleSubmit(event) {
+  event.preventDefault();
+  var titleInput = $entryForm.elements.title.value;
+  var photoUrlInput = $entryForm.elements.photoUrl.value;
+  var notesInput = $entryForm.elements.notes.value;
+
+  var journalEntry = {
+    title: titleInput,
+    photoUrl: photoUrlInput,
+    notes: notesInput
+  };
+
+  return journalEntry;
+
+}
