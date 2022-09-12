@@ -23,6 +23,13 @@ function handleSubmit(event) {
 
   journalEntry.nextEntryId = data.nextEntryId++;
 
+  data.entries.unshift(journalEntry);
+
+  var $photoEntry = document.querySelector('#photoEntry');
+  $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
+
+  $entryForm.reset();
+
   return journalEntry;
 
 }
