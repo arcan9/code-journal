@@ -31,4 +31,8 @@
   .column-half {
     width: 50%;
   }
+
+  .row > .column-half:nth-child(2) {
+    margin-top: 70px;
+  }
 }

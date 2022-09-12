@@ -1,0 +1,23 @@
+.column-full input,
+.column-half input,
+.column-full textarea,
+.column-half textarea,
+form {
+  width: 100%;
+}
+
+.code-journal-bg-color {
+  background-color: blueviolet;
+  position: relative;
+}
+
+h3 {
+  color: white;
+  margin-top: 0;
+}
+
+img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
