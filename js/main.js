@@ -3,6 +3,7 @@ $photoUrl.addEventListener('input', function () {
 
   var $photoEntry = document.querySelector('#photoEntry');
   $photoEntry.setAttribute('src', $photoUrl.value);
+
 });
 
 var $entryForm = document.querySelector('#journal-entry');

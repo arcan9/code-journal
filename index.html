@@ -11,20 +11,24 @@
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous"
     referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header>
+    <div class="code-journal-color-bar"></div>
   </header>
   <main>
-    <div class="code-journal-bg-color"><h3>Code Journal</h3></div>
-    <div class="container">
-      <div data-view="entry-form">
-        <form id="journal-entry">
+    <div data-view="entry-form">
+      <form id="journal-entry">
+        <div class="container">
           <div class="row">
             <div class="column-full column-half">
+              <h3>Code Journal</h3>
               <h1>New Entry</h1>
               <div class="image-container">
                 <img id="photoEntry" src="images/placeholder-image-square.jpg" alt="entry image">
@@ -39,14 +43,17 @@
             <div class="column-full">
               <div><label for="notes">Notes</label></div>
               <div>
-                <textarea required autofocus id="notes" name="notes" cols="30" rows="10"></textarea>
+                <textarea required autofocus id="notes" name="notes" cols="30" rows="8"></textarea>
               </div>
-              <button type="submit">save</button>
+              <div class="button-div">
+                <button type="submit">SAVE</button>
+              </div>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
+
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>

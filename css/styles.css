@@ -1,3 +1,44 @@
+body {
+  font-family: Hind, sans-serif;
+  line-height: 1.6;
+  padding-bottom: 15px;
+  background-color: #efefef;
+}
+
+input {
+  line-height: 2;
+}
+
+input,
+textarea {
+  font-family: Hind, sans-serif;
+  font-size: 1rem;
+  margin: 5px auto 16px;
+  border: 1px solid rgb(195, 195, 195);
+}
+
+input:focus,
+textarea:focus {
+  outline-color: #42855b;
+}
+
+label {
+  font-weight: bold;
+}
+
+h1 {
+  font-family: Montserrat, sans-serif;
+  margin-top: 0;
+}
+
+h3 {
+  color: white;
+  font-family: Montserrat, sans-serif;
+  margin: 0;
+  position: relative;
+  top: -38px;
+}
+
 .column-full input,
 .column-half input,
 .column-full textarea,
@@ -6,18 +47,39 @@ form {
   width: 100%;
 }
 
-.code-journal-bg-color {
-  background-color: blueviolet;
-  position: relative;
+.code-journal-color-bar {
+  background: #42855b;
+  height: 45px;
 }
 
-h3 {
+.button-div {
+  display: flex;
+  justify-content: right;
+}
+
+button {
+  display: block;
+  font-family: Hind, sans-serif;
+  font-size: 1.063rem;
+  padding: 3px 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: #42855b;
   color: white;
-  margin-top: 0;
+  transition: background-color 0.5s;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: white;
+  color: #42855b;
+  border: 1px solid #42855b;
+}
+
+button:active {
+  transform: translateY(0.25rem);
 }
 
 img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
+  border-radius: 4px;
 }
