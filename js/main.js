@@ -31,6 +31,4 @@ function handleSubmit(event) {
 
   $entryForm.reset();
 
-  return journalEntry;
-
 }
