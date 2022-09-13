@@ -41,9 +41,9 @@
     width: 50%;
   }
 
-  .row > .column-half:nth-child(2) {
+  .row > .position-rel-top {
     position: relative;
-    top: 125px;
+    top: 36px;
   }
 
   img {
