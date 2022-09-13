@@ -28,6 +28,9 @@ function handleSubmit(event) {
 
   data.entries.unshift(journalEntry);
 
+  var journalList = document.querySelector('.journal-list');
+  journalList.prepend(renderJournalEntry(journalEntry));
+
   var $photoEntry = document.querySelector('#photoEntry');
   $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
 
@@ -38,6 +41,24 @@ function handleSubmit(event) {
 // VIEW ENTRIES
 // Return DOM tree
 
+/*
+<div data-view="entries">
+      <div class="container">
+        <ul class="journal-list">
+          <li class="row">
+            <div class="column-full column-half">
+              <img src="images/placeholder-image-square.jpg">
+            </div>
+            <div class="column-full column-half">
+              <p class="entry-title">Ada Lovelace</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, culpa. Deserunt iusto ullam saepe atque provident eum recusandae incidunt molestias iure odit et possimus ea sed, eligendi, mollitia harum assumenda, sint dolorem. Unde, iusto repellendus eaque saepe dolorum hic quaerat qui, ipsam itaque corporis quas.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+*/
+
 function renderJournalEntry(entry) {
   var entries = document.createElement('div');
   entries.setAttribute('data-view', 'entries');
@@ -46,6 +67,7 @@ function renderJournalEntry(entry) {
   container.setAttribute('class', 'container');
 
   var unorderedList = document.createElement('ul');
+  unorderedList.setAttribute('class', 'journal-list');
 
   var list = document.createElement('li');
   list.setAttribute('class', 'row');
