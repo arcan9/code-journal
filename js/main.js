@@ -1,3 +1,5 @@
+// CREATE AN ENTRY
+
 var $photoUrl = document.querySelector('#photo-url');
 $photoUrl.addEventListener('input', function () {
 
@@ -32,3 +34,55 @@ function handleSubmit(event) {
   $entryForm.reset();
 
 }
+
+// VIEW ENTRIES
+// Return DOM tree
+
+function renderJournalEntry(entry) {
+  var entries = document.createElement('div');
+  entries.setAttribute('data-view', 'entries');
+
+  var container = document.createElement('div');
+  container.setAttribute('class', 'container');
+
+  var unorderedList = document.createElement('ul');
+  unorderedList.setAttribute('class', 'row');
+
+  var list = document.createElement('li');
+
+  var column1 = document.createElement('div');
+  column1.setAttribute('class', 'column-full column-half');
+
+  var column2 = document.createElement('div');
+  column2.setAttribute('class', 'column-full column-half');
+
+  var imgPreview = document.createElement('img');
+  imgPreview.setAttribute('src', entry.photoUrl);
+
+  var title = document.createElement('p');
+  title.textContent = entry.title;
+
+  var notes = document.createElement('p');
+  notes.textContent = entry.notes;
+
+  entries.appendChild(container);
+  container.appendChild(unorderedList);
+  unorderedList.appendChild(list);
+  list.appendChild(column1);
+  list.appendChild(column2);
+  column1.appendChild(imgPreview);
+  column2.appendChild(title);
+  column2.append(notes);
+
+  return entries;
+}
+
+// TEST
+var test = {
+  title: 'Jigglypuff',
+  photoUrl: 'https://mario.wiki.gallery/images/thumb/6/6a/Jigglypuff_SSBU.png/1200px-Jigglypuff_SSBU.png',
+  notes: 'Likes to sing',
+  nextEntryId: 1
+};
+
+renderJournalEntry(test);
