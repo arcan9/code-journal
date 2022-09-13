@@ -89,3 +89,10 @@ img {
 ul {
   padding: 0;
 }
+
+.entry-title {
+  font-family: Montserrat, sans-serif;
+  font-size: 1.375rem;
+  font-weight: bold;
+  margin: 0;
+}

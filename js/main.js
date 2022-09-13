@@ -46,9 +46,9 @@ function renderJournalEntry(entry) {
   container.setAttribute('class', 'container');
 
   var unorderedList = document.createElement('ul');
-  unorderedList.setAttribute('class', 'row');
 
   var list = document.createElement('li');
+  list.setAttribute('class', 'row');
 
   var column1 = document.createElement('div');
   column1.setAttribute('class', 'column-full column-half');
@@ -60,6 +60,7 @@ function renderJournalEntry(entry) {
   imgPreview.setAttribute('src', entry.photoUrl);
 
   var title = document.createElement('p');
+  title.setAttribute('class', 'entry-title');
   title.textContent = entry.title;
 
   var notes = document.createElement('p');
@@ -77,12 +78,11 @@ function renderJournalEntry(entry) {
   return entries;
 }
 
-// TEST
-var test = {
-  title: 'Jigglypuff',
-  photoUrl: 'https://mario.wiki.gallery/images/thumb/6/6a/Jigglypuff_SSBU.png/1200px-Jigglypuff_SSBU.png',
-  notes: 'Likes to sing',
-  nextEntryId: 1
-};
+var $mainEl = document.querySelector('main');
+document.addEventListener('DOMContentLoaded', function () {
 
-renderJournalEntry(test);
+  for (var i = 0; i < data.entries.length; i++) {
+    var entry = renderJournalEntry(data.entries[i]);
+    $mainEl.appendChild(entry);
+  }
+});
