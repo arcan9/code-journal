@@ -30,6 +30,13 @@ function handleSubmit(event) {
 
   $entryForm.reset();
 
+  // LOCAL STORAGE
+
+  window.addEventListener('beforeunload', function () {
+    var journalEntriesData = JSON.stringify(data);
+    localStorage.setItem('journal entry', journalEntriesData);
+  });
+
   return journalEntry;
 
 }
