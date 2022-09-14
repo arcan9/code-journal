@@ -153,3 +153,17 @@ $newLink.addEventListener('click', function () {
   $form.className = '';
   $entries.className = 'hidden';
 });
+
+// EDITING AN ENTRY
+
+var $entriesHeading = document.querySelector('.entries-heading');
+$entriesHeading.addEventListener('click', editMe);
+
+function editMe(event) {
+  if (event.target.tagName !== 'I') {
+    return;
+  }
+
+  $form.className = '';
+  $entries.className = 'hidden';
+}
