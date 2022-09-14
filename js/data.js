@@ -7,6 +7,8 @@ var data = {
   nextEntryId: 1
 };
 
+// STORE TO LOCAL STORAGE
+
 var getJournalEntries = localStorage.getItem('journal-entry');
 
 if (getJournalEntries !== null) {

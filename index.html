@@ -19,21 +19,21 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- NAVBAR -->
   <nav>
-    <!-- <div class="code-journal-color-bar"></div> -->
-    <div class="nav-container">
-      <div class="row">
-        <div class="column-full column-half">
-          <h3>Code Journal</h3>
-          <ul>
-            <li><a href="#" class="entry-nav-link">Entries</a></li>
-          </ul>
-        </div>
+    <div class="color-block">
+      <div class="container">
+        <h3>Code Journal</h3>
+        <ul>
+          <li><a href="#" class="entry-nav-link">Entries</a></li>
+        </ul>
       </div>
     </div>
   </nav>
+  <!-- MAIN CONTENT -->
   <main>
-    <div data-view="entry-form" class="">
+    <!-- ENTRY FORM -->
+    <div data-view="entry-form" class="hidden">
       <form id="journal-entry">
         <div class="container">
           <h1>New Entry</h1>
@@ -62,14 +62,18 @@
         </div>
       </form>
     </div>
+    <!-- ENTRIES -->
     <div data-view="entries" class="entries">
       <div class="entries-heading container">
-        <div class="row">
+        <div class="row entry-row">
           <div class="column-full">
             <h1>Entries</h1>
             <div class="button-div new-btn-div">
               <button type="submit" class="new-btn">NEW</button>
             </div>
+          </div>
+          <div class="column-full">
+            <p class="no-entries hidden">No entries have been recorded.</p>
           </div>
         </div>
       </div>

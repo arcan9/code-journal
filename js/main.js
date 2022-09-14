@@ -8,6 +8,9 @@ $photoUrl.addEventListener('input', function () {
 
 });
 
+var $form = document.querySelector('[data-view="entry-form"]');
+var $entries = document.querySelector('[data-view="entries"]');
+
 var $entryForm = document.querySelector('#journal-entry');
 $entryForm.addEventListener('submit', handleSubmit);
 
@@ -28,44 +31,42 @@ function handleSubmit(event) {
 
   data.entries.unshift(journalEntry);
 
+  var $photoEntry = document.querySelector('#photoEntry');
+  $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
+
+  // Prepend the new rendered entry to the ul element
   var journalList = document.querySelector('.journal-list');
   journalList.prepend(renderJournalEntry(journalEntry));
 
-  var $photoEntry = document.querySelector('#photoEntry');
-  $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
+  // Submitting new entry automatically shows entries view
+  $form.className = 'hidden';
+  $entries.className = '';
 
   $entryForm.reset();
 
 }
 
 // VIEW ENTRIES
-// Return DOM tree
 
 /*
-<div data-view="entries">
-      <div class="container">
-        <ul class="journal-list">
-          <li class="row">
-            <div class="column-full column-half">
-              <img src="images/placeholder-image-square.jpg">
-            </div>
-            <div class="column-full column-half">
-              <p class="entry-title">Ada Lovelace</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, culpa. Deserunt iusto ullam saepe atque provident eum recusandae incidunt molestias iure odit et possimus ea sed, eligendi, mollitia harum assumenda, sint dolorem. Unde, iusto repellendus eaque saepe dolorum hic quaerat qui, ipsam itaque corporis quas.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
+DOM TREE
+
+<ul class="journal-list">
+  <li class="row">
+    <div class="column-full column-half">
+      <img src="images/placeholder-image-square.jpg">
     </div>
+    <div class="column-full column-half">
+      <p class="entry-title">Ada Lovelace</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, culpa. Deserunt iusto ullam saepe atque provident eum recusandae incidunt molestias iure odit et possimus ea sed, eligendi, mollitia harum assumenda, sint dolorem. Unde, iusto repellendus eaque saepe dolorum hic quaerat qui, ipsam itaque corporis quas.</p>
+    </div>
+  </li>
+</ul>
 */
 
-function renderJournalEntry(entry) {
-  // var entries = document.createElement('div');
-  // entries.setAttribute('data-view', 'entries');
-  // entries.setAttribute('class', 'entries');
+// RENDER DOM TREE
 
-  // var container = document.createElement('div');
-  // container.setAttribute('class', 'container');
+function renderJournalEntry(entry) {
 
   var unorderedList = document.createElement('ul');
   unorderedList.setAttribute('class', 'journal-list');
@@ -89,8 +90,6 @@ function renderJournalEntry(entry) {
   var notes = document.createElement('p');
   notes.textContent = entry.notes;
 
-  // entries.appendChild(container);
-  // container.appendChild(unorderedList);
   unorderedList.appendChild(list);
   list.appendChild(column1);
   list.appendChild(column2);
@@ -100,6 +99,8 @@ function renderJournalEntry(entry) {
 
   return unorderedList;
 }
+
+// APPEND DOM TREE TO WEB PAGE
 
 var $containerEl = document.querySelector('.entries-heading');
 document.addEventListener('DOMContentLoaded', function () {
@@ -111,9 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // SWAP BETWEEN FORM AND ENTRIES
-
-var $form = document.querySelector('[data-view="entry-form"]');
-var $entries = document.querySelector('[data-view="entries"]');
 var $entryNavLink = document.querySelector('.entry-nav-link');
 var $newBtn = document.querySelector('.new-btn');
 
@@ -127,8 +125,9 @@ $newBtn.addEventListener('click', function () {
   $entries.className = 'hidden';
 });
 
-// when Entries link is clicked add className .hidden to form
-// and no className to Entries
+// var journalListDivNone = document.querySelector('.journal-list');
+// var $noEntries = document.querySelector('.no-entries');
 
-// when New link is clicked add className .hidden to entries
-// and no className to form
+// if (journalListDivNone === null) {
+//   $noEntries.className = 'no-entries';
+// }

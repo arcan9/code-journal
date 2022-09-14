@@ -38,8 +38,24 @@ h3 {
   font-family: Montserrat, sans-serif;
   margin: 0 0 25px;
   padding: 16px 0;
-  position: relative;
-  background: #42855b;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:visited {
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.color-block {
+  width: 100vw;
+  background-color: #42855b;
 }
 
 .column-full input,
@@ -53,11 +69,6 @@ form {
 .bar-container {
   position: relative;
   width: 100%;
-}
-
-.code-journal-color-bar {
-  background: #42855b;
-  height: 45px;
 }
 
 .button-div {
@@ -128,10 +139,4 @@ nav li {
   left: 150px;
   color: white;
   letter-spacing: 0.05rem;
-}
-
-.nav-container {
-  max-width: 575px;
-  margin: 0;
-  padding: 0 1.5rem;
 }
