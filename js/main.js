@@ -60,11 +60,12 @@ function handleSubmit(event) {
 */
 
 function renderJournalEntry(entry) {
-  var entries = document.createElement('div');
-  entries.setAttribute('data-view', 'entries');
+  // var entries = document.createElement('div');
+  // entries.setAttribute('data-view', 'entries');
+  // entries.setAttribute('class', 'entries');
 
-  var container = document.createElement('div');
-  container.setAttribute('class', 'container');
+  // var container = document.createElement('div');
+  // container.setAttribute('class', 'container');
 
   var unorderedList = document.createElement('ul');
   unorderedList.setAttribute('class', 'journal-list');
@@ -88,8 +89,8 @@ function renderJournalEntry(entry) {
   var notes = document.createElement('p');
   notes.textContent = entry.notes;
 
-  entries.appendChild(container);
-  container.appendChild(unorderedList);
+  // entries.appendChild(container);
+  // container.appendChild(unorderedList);
   unorderedList.appendChild(list);
   list.appendChild(column1);
   list.appendChild(column2);
@@ -97,14 +98,38 @@ function renderJournalEntry(entry) {
   column2.appendChild(title);
   column2.append(notes);
 
-  return entries;
+  // console.log(unorderedList);
+  return unorderedList;
 }
 
-var $mainEl = document.querySelector('main');
+var $containerEl = document.querySelector('.entries-heading');
 document.addEventListener('DOMContentLoaded', function () {
 
   for (var i = 0; i < data.entries.length; i++) {
     var entry = renderJournalEntry(data.entries[i]);
-    $mainEl.appendChild(entry);
+    $containerEl.appendChild(entry);
   }
 });
+
+// SWAP BETWEEN FORM AND ENTRIES
+
+var $form = document.querySelector('[data-view="entry-form"]');
+var $entries = document.querySelector('journal-list');
+var $entryNavLink = document.querySelector('.entry-nav-link');
+var $newBtn = document.querySelector('.new-btn');
+
+$entryNavLink.addEventListener('click', function () {
+  $form.className = 'hidden';
+  $entries.className = '';
+});
+
+$newBtn.addEventListener('click', function () {
+  $form.className = '';
+  $entries.className = 'hidden';
+});
+
+// when Entries link is clicked add className .hidden to form
+// and no className to Entries
+
+// when New link is clicked add className .hidden to entries
+// and no className to form

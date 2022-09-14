@@ -17,6 +17,11 @@
 .column-full,
 .column-half {
   width: 100%;
+  position: relative;
+}
+
+.mb-38 {
+  margin-bottom: 38px;
 }
 
 @media screen and (min-width: 320px) {
@@ -25,10 +30,18 @@
     height: 300px;
     object-fit: cover;
   }
+
+  .new-btn-div {
+    right: 4px;
+  }
 }
 
 @media screen and (min-width: 768px) {
   .container {
+    max-width: 900px;
+  }
+
+  .nav-container {
     max-width: 900px;
   }
 
