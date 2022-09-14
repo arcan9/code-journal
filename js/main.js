@@ -57,7 +57,12 @@ DOM TREE
       <img src="images/placeholder-image-square.jpg">
     </div>
     <div class="column-full column-half">
-      <p class="entry-title">Ada Lovelace</p>
+      <div class="row">
+        <div class="column-full">
+          <p class="entry-title">Ada Lovelace</p>
+          <div class="button-div new-btn-div"><i class="fa-solid fa-pencil"></i></div>
+        </div>
+      </div>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
     </div>
   </li>
@@ -80,12 +85,24 @@ function renderJournalEntry(entry) {
   var column2 = document.createElement('div');
   column2.setAttribute('class', 'column-full column-half');
 
+  var row = document.createElement('div');
+  row.setAttribute('class', 'row');
+
+  var column3 = document.createElement('div');
+  column3.setAttribute('class', 'column-full');
+
   var imgPreview = document.createElement('img');
   imgPreview.setAttribute('src', entry.photoUrl);
 
   var title = document.createElement('p');
   title.setAttribute('class', 'entry-title');
   title.textContent = entry.title;
+
+  var editIcon = document.createElement('div');
+  editIcon.setAttribute('class', 'button-div new-btn-div');
+
+  var fontAwesomeIcon = document.createElement('i');
+  fontAwesomeIcon.setAttribute('class', 'fa-solid fa-pencil');
 
   var notes = document.createElement('p');
   notes.textContent = entry.notes;
@@ -94,8 +111,10 @@ function renderJournalEntry(entry) {
   list.appendChild(column1);
   list.appendChild(column2);
   column1.appendChild(imgPreview);
-  column2.appendChild(title);
-  column2.append(notes);
+  column2.append(row, notes);
+  row.appendChild(column3);
+  column3.append(title, editIcon);
+  editIcon.appendChild(fontAwesomeIcon);
 
   return unorderedList;
 }

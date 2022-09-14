@@ -154,3 +154,14 @@ nav li {
   color: white;
   letter-spacing: 0.05rem;
 }
+
+/* EDIT */
+
+p.edit-icon {
+  text-align: right;
+  margin: 0;
+}
+
+i.fa-pencil {
+  font-size: 24px;
+}
