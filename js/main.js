@@ -52,7 +52,7 @@ function handleSubmit(event) {
 DOM TREE
 
 <ul class="journal-list">
-  <li class="existing-row row">
+  <li class="existing-row row" data-entry-id="">
     <div class="column-full column-half">
       <img src="images/placeholder-image-square.jpg">
     </div>
@@ -78,6 +78,7 @@ function renderJournalEntry(entry) {
 
   var list = document.createElement('li');
   list.setAttribute('class', 'existing-list row');
+  list.setAttribute('data-entry-id', entry.nextEntryId);
 
   var column1 = document.createElement('div');
   column1.setAttribute('class', 'column-full column-half');
