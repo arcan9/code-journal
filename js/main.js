@@ -98,7 +98,6 @@ function renderJournalEntry(entry) {
   column2.appendChild(title);
   column2.append(notes);
 
-  // console.log(unorderedList);
   return unorderedList;
 }
 
@@ -114,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // SWAP BETWEEN FORM AND ENTRIES
 
 var $form = document.querySelector('[data-view="entry-form"]');
-var $entries = document.querySelector('journal-list');
+var $entries = document.querySelector('[data-view="entries"]');
 var $entryNavLink = document.querySelector('.entry-nav-link');
 var $newBtn = document.querySelector('.new-btn');
 
