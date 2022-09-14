@@ -38,7 +38,7 @@ function handleSubmit(event) {
   var journalList = document.querySelector('.journal-list');
   journalList.prepend(renderJournalEntry(journalEntry));
 
-  // Submitting new entry automatically shows entries view
+  // Submitting new entry automatically shows entries view and hides form
   $form.className = 'hidden';
   $entries.className = '';
 
@@ -52,13 +52,13 @@ function handleSubmit(event) {
 DOM TREE
 
 <ul class="journal-list">
-  <li class="row">
+  <li class="existing-row row">
     <div class="column-full column-half">
       <img src="images/placeholder-image-square.jpg">
     </div>
     <div class="column-full column-half">
       <p class="entry-title">Ada Lovelace</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, culpa. Deserunt iusto ullam saepe atque provident eum recusandae incidunt molestias iure odit et possimus ea sed, eligendi, mollitia harum assumenda, sint dolorem. Unde, iusto repellendus eaque saepe dolorum hic quaerat qui, ipsam itaque corporis quas.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
     </div>
   </li>
 </ul>
@@ -72,7 +72,7 @@ function renderJournalEntry(entry) {
   unorderedList.setAttribute('class', 'journal-list');
 
   var list = document.createElement('li');
-  list.setAttribute('class', 'row');
+  list.setAttribute('class', 'existing-list row');
 
   var column1 = document.createElement('div');
   column1.setAttribute('class', 'column-full column-half');
@@ -109,25 +109,27 @@ document.addEventListener('DOMContentLoaded', function () {
     var entry = renderJournalEntry(data.entries[i]);
     $containerEl.appendChild(entry);
   }
+
+  // if entries exist, hide 'no entries recorded' text
+  var entriesRecorded = document.querySelectorAll('.existing-list');
+  var $noEntries = document.querySelector('.no-entries');
+
+  if (entriesRecorded.length > 0) {
+    $noEntries.className = 'no-entries' + ' hidden';
+  }
+
 });
 
-// SWAP BETWEEN FORM AND ENTRIES
+// SWAP BETWEEN FORM AND ENTRIES VIEW
 var $entryNavLink = document.querySelector('.entry-nav-link');
-var $newBtn = document.querySelector('.new-btn');
+var $newLink = document.querySelector('.new-link');
 
 $entryNavLink.addEventListener('click', function () {
   $form.className = 'hidden';
   $entries.className = '';
 });
 
-$newBtn.addEventListener('click', function () {
+$newLink.addEventListener('click', function () {
   $form.className = '';
   $entries.className = 'hidden';
 });
-
-// var journalListDivNone = document.querySelector('.journal-list');
-// var $noEntries = document.querySelector('.no-entries');
-
-// if (journalListDivNone === null) {
-//   $noEntries.className = 'no-entries';
-// }

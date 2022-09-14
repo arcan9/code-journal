@@ -53,6 +53,20 @@ a:hover {
   text-decoration: underline;
 }
 
+a.new-link {
+  background: #42855b;
+  padding: 6px 16px 2px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid #42855b;
+}
+
+a.new-link:hover {
+  background-color: white;
+  color: #42855b;
+  border: 1px solid #42855b;
+}
+
 .color-block {
   width: 100vw;
   background-color: #42855b;
