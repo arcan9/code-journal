@@ -200,9 +200,14 @@ function viewSwap(string) {
 // EDITING AN ENTRY
 
 var $entriesHeading = document.querySelector('.entries-heading');
-$entriesHeading.addEventListener('click', editMe);
+$entriesHeading.addEventListener('click', editEntry);
 
-function editMe(event) {
+var $titleField = document.querySelector('#title');
+var $photoField = document.querySelector('#photo-url');
+var $notesField = document.querySelector('#notes');
+var $photoPreview = document.querySelector('#photoEntry');
+
+function editEntry(event) {
   if (event.target.tagName !== 'I') {
     return;
   }
@@ -218,4 +223,9 @@ function editMe(event) {
       data.editing = data.entries[i];
     }
   }
+
+  $titleField.value = data.editing.title;
+  $photoField.value = data.editing.photoUrl;
+  $notesField.value = data.editing.notes;
+  $photoPreview.src = data.editing.photoUrl;
 }
