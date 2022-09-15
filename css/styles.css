@@ -3,6 +3,7 @@ body {
   line-height: 1.6;
   padding-bottom: 15px;
   background-color: #efefef;
+  position: relative;
 }
 
 input {
@@ -28,15 +29,47 @@ label {
 
 h1 {
   font-family: Montserrat, sans-serif;
-  margin-top: 0;
+  margin: 0;
+  padding: 0 0.75rem;
 }
 
 h3 {
   color: white;
   font-family: Montserrat, sans-serif;
-  margin: 0;
-  position: relative;
-  top: -38px;
+  margin: 0 0 25px;
+  padding: 16px 0;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:visited {
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a.new-link {
+  background: #42855b;
+  padding: 6px 16px 2px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid #42855b;
+}
+
+a.new-link:hover {
+  background-color: white;
+  color: #42855b;
+  border: 1px solid #42855b;
+}
+
+.color-block {
+  width: 100vw;
+  background-color: #42855b;
 }
 
 .column-full input,
@@ -47,14 +80,20 @@ form {
   width: 100%;
 }
 
-.code-journal-color-bar {
-  background: #42855b;
-  height: 45px;
+.bar-container {
+  position: relative;
+  width: 100%;
 }
 
 .button-div {
   display: flex;
   justify-content: right;
+}
+
+.new-btn-div {
+  position: absolute;
+  top: 10px;
+  right: 13px;
 }
 
 button {
@@ -64,6 +103,7 @@ button {
   padding: 3px 16px;
   border-radius: 4px;
   border: none;
+  border: 1px solid #42855b;
   background-color: #42855b;
   color: white;
   transition: background-color 0.5s;
@@ -82,4 +122,46 @@ button:active {
 
 img {
   border-radius: 4px;
+}
+
+/* View Entries */
+
+ul {
+  padding: 0;
+}
+
+p.entry-title {
+  font-family: Montserrat, sans-serif;
+  font-size: 1.375rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+nav {
+  position: relative;
+}
+
+nav ul {
+  list-style: none;
+  position: relative;
+}
+
+nav li {
+  display: inline-block;
+  position: absolute;
+  top: -66px;
+  left: 150px;
+  color: white;
+  letter-spacing: 0.05rem;
+}
+
+/* EDIT */
+
+p.edit-icon {
+  text-align: right;
+  margin: 0;
+}
+
+i.fa-pencil {
+  font-size: 24px;
 }

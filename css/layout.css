@@ -17,6 +17,11 @@
 .column-full,
 .column-half {
   width: 100%;
+  position: relative;
+}
+
+.mb-38 {
+  margin-bottom: 38px;
 }
 
 @media screen and (min-width: 320px) {
@@ -32,6 +37,10 @@
     max-width: 900px;
   }
 
+  .nav-container {
+    max-width: 900px;
+  }
+
   .column-full,
   .column-half {
     padding: 0 0.75rem;
@@ -41,9 +50,9 @@
     width: 50%;
   }
 
-  .row > .column-half:nth-child(2) {
+  .row > .position-rel-top {
     position: relative;
-    top: 125px;
+    top: 36px;
   }
 
   img {
