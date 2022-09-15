@@ -138,13 +138,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
     $containerEl.appendChild(entry);
   }
 
-  // if there are current entries on refresh, continue hiding 'no entries recorded'
-  // var entriesRecorded = document.querySelectorAll('.my-list ul');
-  // var $noEntriesText = document.querySelector('p.no-record');
+  // if there are current entries on load, continue hiding 'no entries recorded'
+  var entriesRecorded = document.querySelectorAll('.my-list ul');
+  var $noEntriesText = document.querySelector('p.no-record');
 
-  // if (entriesRecorded.length > 0) {
-  //   $noEntriesText.className = 'hidden';
-  // }
+  if (entriesRecorded.length > 0) {
+    $noEntriesText.className = 'hidden';
+  }
 
 });
 
