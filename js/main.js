@@ -38,20 +38,20 @@ function handleSubmit(event) {
 
   data.entries.unshift(journalEntry);
 
-  // Submitting new entry automatically shows entries view and hides form
-  $form.className = 'hidden';
-  $entries.className = '';
-
-  // hide 'no entries recorded' text on submit
-  var entriesRecorded = document.querySelectorAll('.my-list ul');
+  // hide 'no entries recorded' on submit when the first submission is entered
+  var entriesRecorded = document.querySelectorAll('.my-list-item');
   var $noEntriesText = document.querySelector('p.no-record');
 
-  if (entriesRecorded.length > 0) {
+  if (entriesRecorded.length === 1) {
     $noEntriesText.className = 'hidden';
   }
 
   $entryForm.reset();
 
+  // On submit, do not hide the entries heading and NEW anchor
+  entrySecondContainer.className = 'entries-second-container';
+
+  viewSwap('entries');
 }
 
 // VIEW ENTRIES
@@ -59,8 +59,7 @@ function handleSubmit(event) {
 /*
 DOM TREE
 
-<ul class="journal-list">
-  <li class="existing-row row" data-entry-id="">
+  <li class="my-list-item row" data-entry-id="">
     <div class="column-full column-half">
       <img src="images/placeholder-image-square.jpg">
     </div>
@@ -74,18 +73,15 @@ DOM TREE
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
     </div>
   </li>
-</ul>
+
 */
 
 // RENDER DOM TREE
 
 function renderJournalEntry(entry) {
 
-  var unorderedList = document.createElement('ul');
-  unorderedList.setAttribute('class', 'journal-item');
-
   var list = document.createElement('li');
-  list.setAttribute('class', 'existing-list row');
+  list.setAttribute('class', 'my-list-item row');
   list.setAttribute('data-entry-id', entry.nextEntryId);
 
   var column1 = document.createElement('div');
@@ -116,7 +112,6 @@ function renderJournalEntry(entry) {
   var notes = document.createElement('p');
   notes.textContent = entry.notes;
 
-  unorderedList.appendChild(list);
   list.appendChild(column1);
   list.appendChild(column2);
   column1.appendChild(imgPreview);
@@ -125,7 +120,7 @@ function renderJournalEntry(entry) {
   column3.append(title, editIcon);
   editIcon.appendChild(fontAwesomeIcon);
 
-  return unorderedList;
+  return list;
 }
 
 // APPEND DOM TREE TO WEB PAGE
@@ -138,12 +133,23 @@ document.addEventListener('DOMContentLoaded', function (event) {
     $containerEl.appendChild(entry);
   }
 
-  // if there are current entries on load, continue hiding 'no entries recorded'
-  var entriesRecorded = document.querySelectorAll('.my-list ul');
+  // if there are entries on load, continue hiding 'no entries recorded'
+  // if there are no entries, do not hide entries heading and NEW anchor
+  var entriesRecorded = document.querySelectorAll('.my-list-item');
   var $noEntriesText = document.querySelector('p.no-record');
+  var entrySecondContainer = document.querySelector('.entries-second-container');
 
   if (entriesRecorded.length > 0) {
-    $noEntriesText.className = 'hidden';
+    $noEntriesText.className = 'hidden no-record';
+  } else {
+    entrySecondContainer.className = 'entries-second-container';
+  }
+
+  viewSwap(data.view);
+
+  // hide entries heading and NEW anchor if form is the current view
+  if (data.view === 'entry-form') {
+    entrySecondContainer.className = 'entries-second-container hidden';
   }
 
 });
@@ -151,9 +157,24 @@ document.addEventListener('DOMContentLoaded', function (event) {
 // SWAP BETWEEN FORM AND ENTRIES VIEW
 var $entryNavLink = document.querySelector('.entry-nav-link');
 var $newLink = document.querySelector('.new-link');
+var entrySecondContainer = document.querySelector('.entries-second-container');
 
 $entryNavLink.addEventListener('click', hideForm);
+$entryNavLink.addEventListener('click', viewEntry);
 $newLink.addEventListener('click', hideEntry);
+$newLink.addEventListener('click', viewForm);
+
+// swap data.view values on click
+// control entries heading and NEW anchor visibility depending on current view
+function viewEntry() {
+  viewSwap('entries');
+  entrySecondContainer.className = 'entries-second-container';
+}
+
+function viewForm() {
+  viewSwap('entry-form');
+  entrySecondContainer.className = 'hidden entries-second-container';
+}
 
 function hideForm() {
   $form.className = 'hidden';
@@ -165,6 +186,15 @@ function hideEntry() {
   $form.className = '';
   $entries.className = 'hidden';
   $entryForm.reset();
+}
+
+function viewSwap(string) {
+  data.view = string;
+  if (string === 'entry-form') {
+    hideEntry();
+  } else if (string === 'entries') {
+    hideForm();
+  }
 }
 
 // EDITING AN ENTRY

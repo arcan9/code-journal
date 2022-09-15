@@ -33,6 +33,7 @@
   <!-- MAIN CONTENT -->
   <main>
     <!-- ENTRY FORM -->
+
     <div data-view="entry-form" class="hidden">
       <form id="journal-entry">
         <div class="container">
@@ -62,9 +63,10 @@
         </div>
       </form>
     </div>
-    <!-- ENTRIES -->
-    <div data-view="entries" class="">
-      <div class="entries-heading container">
+    <!-- NEW ENTRIES -->
+    <div class="entries-heading container">
+      <!-- ENTRIES HEADING AND NEW ANCHOR -->
+      <div class="entries-second-container">
         <div class="row entry-row">
           <div class="column-full">
             <h1>Entries</h1>
@@ -72,11 +74,14 @@
               <a href="#" class="new-link">NEW</a>
             </div>
           </div>
-          <div class="column-full">
-            <p class="no-record">No entries have been recorded.</p>
-          </div>
         </div>
-        <div class="my-list"></div>
+        <div class="column-full">
+          <p class="no-record">No entries have been recorded.</p>
+        </div>
+      </div>
+      <!-- END OF ENTRIES HEADING AND NEW ANCHOR -->
+      <div data-view="entries" class="">
+        <ul class="my-list"></ul>
       </div>
     </div>
   </main>
