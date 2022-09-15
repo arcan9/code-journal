@@ -20,6 +20,9 @@ function handleSubmit(event) {
   var photoUrlInput = $entryForm.elements.photoUrl.value;
   var notesInput = $entryForm.elements.notes.value;
 
+  var $photoEntry = document.querySelector('#photoEntry');
+  $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
+
   var journalEntry = {
     title: titleInput,
     photoUrl: photoUrlInput,
@@ -29,18 +32,23 @@ function handleSubmit(event) {
 
   journalEntry.nextEntryId = data.nextEntryId++;
 
-  data.entries.unshift(journalEntry);
-
-  var $photoEntry = document.querySelector('#photoEntry');
-  $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
-
   // Prepend the new rendered entry to the ul element
-  var journalList = document.querySelector('.journal-list');
-  journalList.prepend(renderJournalEntry(journalEntry));
+  var myList = document.querySelector('.my-list');
+  myList.prepend(renderJournalEntry(journalEntry));
+
+  data.entries.unshift(journalEntry);
 
   // Submitting new entry automatically shows entries view and hides form
   $form.className = 'hidden';
   $entries.className = '';
+
+  // hide 'no entries recorded' text on submit
+  var entriesRecorded = document.querySelectorAll('.my-list ul');
+  var $noEntriesText = document.querySelector('p.no-record');
+
+  if (entriesRecorded.length > 0) {
+    $noEntriesText.className = 'hidden';
+  }
 
   $entryForm.reset();
 
@@ -74,7 +82,7 @@ DOM TREE
 function renderJournalEntry(entry) {
 
   var unorderedList = document.createElement('ul');
-  unorderedList.setAttribute('class', 'journal-list');
+  unorderedList.setAttribute('class', 'journal-item');
 
   var list = document.createElement('li');
   list.setAttribute('class', 'existing-list row');
@@ -122,21 +130,21 @@ function renderJournalEntry(entry) {
 
 // APPEND DOM TREE TO WEB PAGE
 
-var $containerEl = document.querySelector('.entries-heading');
-document.addEventListener('DOMContentLoaded', function () {
+var $containerEl = document.querySelector('.my-list');
+document.addEventListener('DOMContentLoaded', function (event) {
 
   for (var i = 0; i < data.entries.length; i++) {
     var entry = renderJournalEntry(data.entries[i]);
     $containerEl.appendChild(entry);
   }
 
-  // if entries exist, hide 'no entries recorded' text
-  var entriesRecorded = document.querySelectorAll('.existing-list');
-  var $noEntries = document.querySelector('.no-entries');
+  // if there are current entries on refresh, continue hiding 'no entries recorded'
+  // var entriesRecorded = document.querySelectorAll('.my-list ul');
+  // var $noEntriesText = document.querySelector('p.no-record');
 
-  if (entriesRecorded.length > 0) {
-    $noEntries.className = 'no-entries' + ' hidden';
-  }
+  // if (entriesRecorded.length > 0) {
+  //   $noEntriesText.className = 'hidden';
+  // }
 
 });
 
@@ -144,15 +152,20 @@ document.addEventListener('DOMContentLoaded', function () {
 var $entryNavLink = document.querySelector('.entry-nav-link');
 var $newLink = document.querySelector('.new-link');
 
-$entryNavLink.addEventListener('click', function () {
+$entryNavLink.addEventListener('click', hideForm);
+$newLink.addEventListener('click', hideEntry);
+
+function hideForm() {
   $form.className = 'hidden';
   $entries.className = '';
-});
+  $entryForm.reset();
+}
 
-$newLink.addEventListener('click', function () {
+function hideEntry() {
   $form.className = '';
   $entries.className = 'hidden';
-});
+  $entryForm.reset();
+}
 
 // EDITING AN ENTRY
 

@@ -16,6 +16,6 @@ if (getJournalEntries !== null) {
 }
 
 window.addEventListener('beforeunload', function () {
-  var journalEntriesData = JSON.stringify(data);
-  localStorage.setItem('journal-entry', journalEntriesData);
+  var journalEntriesJSON = JSON.stringify(data);
+  localStorage.setItem('journal-entry', journalEntriesJSON);
 });
