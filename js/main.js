@@ -166,4 +166,13 @@ function editMe(event) {
 
   $form.className = '';
   $entries.className = 'hidden';
+
+  var listAncestor = event.target.closest('li');
+  var listId = parseInt(listAncestor.getAttribute('data-entry-id'));
+
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].nextEntryId === listId) {
+      data.editing = data.entries[i];
+    }
+  }
 }
