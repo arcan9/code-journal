@@ -221,6 +221,7 @@ var $titleField = document.querySelector('#title');
 var $photoField = document.querySelector('#photo-url');
 var $notesField = document.querySelector('#notes');
 var $photoPreview = document.querySelector('#photoEntry');
+var $entryText = document.querySelector('.new-entry-text');
 
 function editEntry(event) {
   if (event.target.tagName !== 'I') {
@@ -229,10 +230,10 @@ function editEntry(event) {
 
   viewForm();
   $deleteAnchor.className = 'delete-anchor';
+  $entryText.textContent = 'Edit Entry';
 
   var listAncestor = event.target.closest('li');
   var listId = parseInt(listAncestor.getAttribute('data-entry-id'));
-  // console.log('value of listId', listId);
 
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].nextEntryId === listId) {
