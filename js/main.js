@@ -5,7 +5,6 @@ $photoUrl.addEventListener('input', function () {
 
   var $photoEntry = document.querySelector('#photoEntry');
   $photoEntry.setAttribute('src', $photoUrl.value);
-
 });
 
 var $form = document.querySelector('[data-view="entry-form"]');
@@ -14,44 +13,60 @@ var $entries = document.querySelector('[data-view="entries"]');
 var $entryForm = document.querySelector('#journal-entry');
 $entryForm.addEventListener('submit', handleSubmit);
 
+var $myListItem = document.querySelectorAll('.my-list-item');
+
 function handleSubmit(event) {
   event.preventDefault();
+
   var titleInput = $entryForm.elements.title.value;
   var photoUrlInput = $entryForm.elements.photoUrl.value;
   var notesInput = $entryForm.elements.notes.value;
+  var myList = document.querySelector('.my-list');
 
   var $photoEntry = document.querySelector('#photoEntry');
   $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
 
-  var journalEntry = {
-    title: titleInput,
-    photoUrl: photoUrlInput,
-    notes: notesInput,
-    nextEntryId: data.nextEntryId
-  };
-
-  journalEntry.nextEntryId = data.nextEntryId++;
-
-  // Prepend the new rendered entry to the ul element
-  var myList = document.querySelector('.my-list');
-  myList.prepend(renderJournalEntry(journalEntry));
-
-  data.entries.unshift(journalEntry);
-
   // hide 'no entries recorded' on submit when the first submission is entered
-  var entriesRecorded = document.querySelectorAll('.my-list-item');
+  // var entriesRecorded = document.querySelectorAll('.my-list-item');
   var $noEntriesText = document.querySelector('p.no-record');
 
-  if (entriesRecorded.length === 1) {
-    $noEntriesText.className = 'hidden';
-  }
+  if (data.editing === null) {
 
-  $entryForm.reset();
+    if ($myListItem.length === 1) {
+      $noEntriesText.className = 'hidden';
+    }
+    var journalEntry = {
+      title: titleInput,
+      photoUrl: photoUrlInput,
+      notes: notesInput,
+      nextEntryId: data.nextEntryId
+    };
+
+    data.nextEntryId++;
+    data.entries.unshift(journalEntry);
+    myList.prepend(renderJournalEntry(journalEntry));
+    $entryForm.reset();
+    viewSwap('entries');
+  } else {
+    var newEntryObject = {
+      title: titleInput,
+      photoUrl: photoUrlInput,
+      notes: notesInput,
+      nextEntryId: data.editing.nextEntryId
+    };
+    data.editing.photoUrl = newEntryObject.photoUrl;
+    data.editing.title = newEntryObject.title;
+    data.editing.notes = newEntryObject.notes;
+    var pastEntry = document.querySelector('[data-entry-id="' + data.editing.nextEntryId + '"]');
+    var editedEntry = renderJournalEntry(newEntryObject);
+    myList.replaceChild(editedEntry, pastEntry);
+    $entryForm.reset();
+    viewSwap('entries');
+    data.editing = null;
+  }
 
   // On submit, do not hide the entries heading and NEW anchor
   entrySecondContainer.className = 'entries-second-container';
-
-  viewSwap('entries');
 }
 
 // VIEW ENTRIES
@@ -125,21 +140,21 @@ function renderJournalEntry(entry) {
 
 // APPEND DOM TREE TO WEB PAGE
 
-var $containerEl = document.querySelector('.my-list');
+var myList = document.querySelector('.my-list');
 document.addEventListener('DOMContentLoaded', function (event) {
 
   for (var i = 0; i < data.entries.length; i++) {
     var entry = renderJournalEntry(data.entries[i]);
-    $containerEl.appendChild(entry);
+    myList.appendChild(entry);
   }
 
   // if there are entries on load, continue hiding 'no entries recorded'
   // if there are no entries, do not hide entries heading and NEW anchor
-  var entriesRecorded = document.querySelectorAll('.my-list-item');
+  var $myListItem = document.querySelectorAll('.my-list-item');
   var $noEntriesText = document.querySelector('p.no-record');
   var entrySecondContainer = document.querySelector('.entries-second-container');
 
-  if (entriesRecorded.length > 0) {
+  if ($myListItem.length > 0) {
     $noEntriesText.className = 'hidden no-record';
   } else {
     entrySecondContainer.className = 'entries-second-container';
@@ -151,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
   if (data.view === 'entry-form') {
     entrySecondContainer.className = 'entries-second-container hidden';
   }
-
 });
 
 // SWAP BETWEEN FORM AND ENTRIES VIEW
@@ -185,6 +199,7 @@ function hideForm() {
 function hideEntry() {
   $form.className = '';
   $entries.className = 'hidden';
+  $deleteAnchor.className = 'delete-anchor hidden';
   $entryForm.reset();
 }
 
@@ -200,15 +215,22 @@ function viewSwap(string) {
 // EDITING AN ENTRY
 
 var $entriesHeading = document.querySelector('.entries-heading');
-$entriesHeading.addEventListener('click', editMe);
+$entriesHeading.addEventListener('click', editEntry);
 
-function editMe(event) {
+var $titleField = document.querySelector('#title');
+var $photoField = document.querySelector('#photo-url');
+var $notesField = document.querySelector('#notes');
+var $photoPreview = document.querySelector('#photoEntry');
+var $entryText = document.querySelector('.new-entry-text');
+
+function editEntry(event) {
   if (event.target.tagName !== 'I') {
     return;
   }
 
-  $form.className = '';
-  $entries.className = 'hidden';
+  viewForm();
+  $deleteAnchor.className = 'delete-anchor';
+  $entryText.textContent = 'Edit Entry';
 
   var listAncestor = event.target.closest('li');
   var listId = parseInt(listAncestor.getAttribute('data-entry-id'));
@@ -218,4 +240,39 @@ function editMe(event) {
       data.editing = data.entries[i];
     }
   }
+
+  $titleField.value = data.editing.title;
+  $photoField.value = data.editing.photoUrl;
+  $notesField.value = data.editing.notes;
+  $photoPreview.src = data.editing.photoUrl;
+
+}
+
+// DELETING AN ENTRY
+
+var $overlay = document.querySelector('.overlay');
+var $modalContainer = document.querySelector('.modal-container');
+var $confirmButton = document.querySelector('.confirm-btn');
+var $cancelButton = document.querySelector('.cancel-btn');
+
+var $deleteAnchor = document.querySelector('.delete-anchor');
+$deleteAnchor.addEventListener('click', handleDelete);
+
+$cancelButton.addEventListener('click', handleCancel);
+$confirmButton.addEventListener('click', handleConfirm);
+
+function handleDelete() {
+  $modalContainer.className = 'modal-container';
+  $overlay.className = 'overlay';
+}
+
+function handleCancel() {
+  $modalContainer.className = 'modal-container hidden';
+  $overlay.className = 'overlay hidden';
+}
+
+function handleConfirm() {
+
+  handleCancel();
+  viewEntry();
 }
