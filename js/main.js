@@ -258,11 +258,19 @@ function editEntry(event) {
 var $overlay = document.querySelector('.overlay');
 var $modalContainer = document.querySelector('.modal-container');
 var $confirmButton = document.querySelector('.confirm-btn');
+var $cancelButton = document.querySelector('.cancel-btn');
 
 var $deleteAnchor = document.querySelector('.delete-anchor');
 $deleteAnchor.addEventListener('click', handleDelete);
 
+$cancelButton.addEventListener('click', handleCancel);
+
 function handleDelete() {
   $modalContainer.className = 'modal-container';
   $overlay.className = 'overlay';
+}
+
+function handleCancel() {
+  $modalContainer.className = 'modal-container hidden';
+  $overlay.className = 'overlay hidden';
 }
