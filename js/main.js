@@ -233,6 +233,7 @@ function editEntry(event) {
   }
 
   viewForm();
+  $deleteAnchor.className = 'delete-anchor';
   // $form.className = '';
   // $entries.className = 'hidden';
 
@@ -252,4 +253,16 @@ function editEntry(event) {
   $photoField.value = data.editing.photoUrl;
   $notesField.value = data.editing.notes;
   $photoPreview.src = data.editing.photoUrl;
+}
+
+var $overlay = document.querySelector('.overlay');
+var $modalContainer = document.querySelector('.modal-container');
+var $confirmButton = document.querySelector('.confirm-btn');
+
+var $deleteAnchor = document.querySelector('.delete-anchor');
+$deleteAnchor.addEventListener('click', handleDelete);
+
+function handleDelete() {
+  $modalContainer.className = 'modal-container';
+  $overlay.className = 'overlay';
 }
