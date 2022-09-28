@@ -16,36 +16,56 @@ $entryForm.addEventListener('submit', handleSubmit);
 
 function handleSubmit(event) {
   event.preventDefault();
+
   var titleInput = $entryForm.elements.title.value;
   var photoUrlInput = $entryForm.elements.photoUrl.value;
   var notesInput = $entryForm.elements.notes.value;
+  var myList = document.querySelector('.my-list');
+  var myListItem = document.querySelectorAll('.my-list-item');
 
   var $photoEntry = document.querySelector('#photoEntry');
   $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
-
-  var journalEntry = {
-    title: titleInput,
-    photoUrl: photoUrlInput,
-    notes: notesInput,
-    nextEntryId: data.nextEntryId
-  };
-
-  journalEntry.nextEntryId = data.nextEntryId++;
-
-  // Prepend the new rendered entry to the ul element
-  var myList = document.querySelector('.my-list');
-  myList.prepend(renderJournalEntry(journalEntry));
-
-  data.entries.unshift(journalEntry);
 
   // hide 'no entries recorded' on submit when the first submission is entered
   var entriesRecorded = document.querySelectorAll('.my-list-item');
   var $noEntriesText = document.querySelector('p.no-record');
 
-  if (entriesRecorded.length === 1) {
-    $noEntriesText.className = 'hidden';
-  }
+  if (data.editing === null) {
 
+    if (entriesRecorded.length === 1) {
+      $noEntriesText.className = 'hidden';
+    }
+    var journalEntry = {
+      title: titleInput,
+      photoUrl: photoUrlInput,
+      notes: notesInput,
+      nextEntryId: data.nextEntryId
+    };
+
+    journalEntry.nextEntryId = data.nextEntryId++;
+    myList.prepend(renderJournalEntry(journalEntry));
+    data.entries.unshift(journalEntry);
+  } else {
+    for (var j = 0; j < myListItem.length; j++) {
+      var newEntryObject = {
+        title: titleInput,
+        photoUrl: photoUrlInput,
+        notes: notesInput,
+        nextEntryId: data.editing.nextEntryId
+      };
+      var myListItemId = parseInt(myListItem[j].getAttribute('data-entry-id'));
+      if (myListItemId === data.editing.nextEntryId) {
+        newEntryObject.nextEntryId = data.editing.nextEntryId;
+        myListItem[j].replaceWith(renderJournalEntry(newEntryObject));
+        data.editing = null;
+        console.log('value of newEntryObject.nextEntryId', newEntryObject.nextEntryId);
+      }
+    }
+    for (var i = 0; i < data.entries.length; i++) {
+      data.entries.splice(i, 1, newEntryObject);
+    }
+  }
+  // data.entries.unshift(journalEntry); // DON'T REMOVE THIS OR MOVE IT ANYWHERE IN THE CODE
   $entryForm.reset();
 
   // On submit, do not hide the entries heading and NEW anchor
@@ -125,12 +145,12 @@ function renderJournalEntry(entry) {
 
 // APPEND DOM TREE TO WEB PAGE
 
-var $containerEl = document.querySelector('.my-list');
+var myList = document.querySelector('.my-list');
 document.addEventListener('DOMContentLoaded', function (event) {
 
   for (var i = 0; i < data.entries.length; i++) {
     var entry = renderJournalEntry(data.entries[i]);
-    $containerEl.appendChild(entry);
+    myList.appendChild(entry);
   }
 
   // if there are entries on load, continue hiding 'no entries recorded'
@@ -212,15 +232,19 @@ function editEntry(event) {
     return;
   }
 
-  $form.className = '';
-  $entries.className = 'hidden';
+  viewForm();
+  // $form.className = '';
+  // $entries.className = 'hidden';
 
   var listAncestor = event.target.closest('li');
   var listId = parseInt(listAncestor.getAttribute('data-entry-id'));
+  console.log('value of listId', listId);
 
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].nextEntryId === listId) {
+      console.log('value of data.entries[i].nextEntryId', data.entries[i].nextEntryId);
       data.editing = data.entries[i];
+      console.log('value of data.editing', data.editing);
     }
   }
 
