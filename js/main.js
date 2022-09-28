@@ -14,6 +14,7 @@ var $entryForm = document.querySelector('#journal-entry');
 $entryForm.addEventListener('submit', handleSubmit);
 
 var $myListItem = document.querySelectorAll('.my-list-item');
+var $photoEntry = document.querySelector('#photoEntry');
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -22,9 +23,6 @@ function handleSubmit(event) {
   var photoUrlInput = $entryForm.elements.photoUrl.value;
   var notesInput = $entryForm.elements.notes.value;
   var myList = document.querySelector('.my-list');
-
-  var $photoEntry = document.querySelector('#photoEntry');
-  $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
 
   // hide 'no entries recorded' on submit when the first submission is entered
   // var entriesRecorded = document.querySelectorAll('.my-list-item');
@@ -45,8 +43,10 @@ function handleSubmit(event) {
     data.nextEntryId++;
     data.entries.unshift(journalEntry);
     myList.prepend(renderJournalEntry(journalEntry));
+    $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
     $entryForm.reset();
     viewSwap('entries');
+    data.editing = null;
   } else {
     var newEntryObject = {
       title: titleInput,
@@ -59,7 +59,8 @@ function handleSubmit(event) {
     data.editing.notes = newEntryObject.notes;
     var pastEntry = document.querySelector('[data-entry-id="' + data.editing.nextEntryId + '"]');
     var editedEntry = renderJournalEntry(newEntryObject);
-    myList.replaceChild(editedEntry, pastEntry);
+    pastEntry.replaceWith(editedEntry);
+    $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
     $entryForm.reset();
     viewSwap('entries');
     data.editing = null;
@@ -188,6 +189,8 @@ function viewEntry() {
 function viewForm() {
   viewSwap('entry-form');
   entrySecondContainer.className = 'hidden entries-second-container';
+  $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
+  data.editing = null;
 }
 
 function hideForm() {
@@ -271,8 +274,18 @@ function handleCancel() {
   $overlay.className = 'overlay hidden';
 }
 
-function handleConfirm() {
+function handleConfirm(event) {
+  var toBeDeleted = document.querySelector('[data-entry-id="' + data.editing.nextEntryId + '"]');
+  var listId = parseInt(toBeDeleted.getAttribute('data-entry-id'));
+  toBeDeleted.remove();
 
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].nextEntryId === listId) {
+      data.entries.splice(i, 1);
+    }
+  }
+
+  $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
   handleCancel();
   viewEntry();
 }
