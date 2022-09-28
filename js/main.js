@@ -5,7 +5,6 @@ $photoUrl.addEventListener('input', function () {
 
   var $photoEntry = document.querySelector('#photoEntry');
   $photoEntry.setAttribute('src', $photoUrl.value);
-
 });
 
 var $form = document.querySelector('[data-view="entry-form"]');
@@ -14,6 +13,8 @@ var $entries = document.querySelector('[data-view="entries"]');
 var $entryForm = document.querySelector('#journal-entry');
 $entryForm.addEventListener('submit', handleSubmit);
 
+var $myListItem = document.querySelectorAll('.my-list-item');
+
 function handleSubmit(event) {
   event.preventDefault();
 
@@ -21,18 +22,17 @@ function handleSubmit(event) {
   var photoUrlInput = $entryForm.elements.photoUrl.value;
   var notesInput = $entryForm.elements.notes.value;
   var myList = document.querySelector('.my-list');
-  var myListItem = document.querySelectorAll('.my-list-item');
 
   var $photoEntry = document.querySelector('#photoEntry');
   $photoEntry.setAttribute('src', 'images/placeholder-image-square.jpg');
 
   // hide 'no entries recorded' on submit when the first submission is entered
-  var entriesRecorded = document.querySelectorAll('.my-list-item');
+  // var entriesRecorded = document.querySelectorAll('.my-list-item');
   var $noEntriesText = document.querySelector('p.no-record');
 
   if (data.editing === null) {
 
-    if (entriesRecorded.length === 1) {
+    if ($myListItem.length === 1) {
       $noEntriesText.className = 'hidden';
     }
     var journalEntry = {
@@ -42,36 +42,31 @@ function handleSubmit(event) {
       nextEntryId: data.nextEntryId
     };
 
-    journalEntry.nextEntryId = data.nextEntryId++;
-    myList.prepend(renderJournalEntry(journalEntry));
+    data.nextEntryId++;
     data.entries.unshift(journalEntry);
+    myList.prepend(renderJournalEntry(journalEntry));
+    $entryForm.reset();
+    viewSwap('entries');
   } else {
-    for (var j = 0; j < myListItem.length; j++) {
-      var newEntryObject = {
-        title: titleInput,
-        photoUrl: photoUrlInput,
-        notes: notesInput,
-        nextEntryId: data.editing.nextEntryId
-      };
-      var myListItemId = parseInt(myListItem[j].getAttribute('data-entry-id'));
-      if (myListItemId === data.editing.nextEntryId) {
-        newEntryObject.nextEntryId = data.editing.nextEntryId;
-        myListItem[j].replaceWith(renderJournalEntry(newEntryObject));
-        data.editing = null;
-        console.log('value of newEntryObject.nextEntryId', newEntryObject.nextEntryId);
-      }
-    }
-    for (var i = 0; i < data.entries.length; i++) {
-      data.entries.splice(i, 1, newEntryObject);
-    }
+    var newEntryObject = {
+      title: titleInput,
+      photoUrl: photoUrlInput,
+      notes: notesInput,
+      nextEntryId: data.editing.nextEntryId
+    };
+    data.editing.photoUrl = newEntryObject.photoUrl;
+    data.editing.title = newEntryObject.title;
+    data.editing.notes = newEntryObject.notes;
+    var pastEntry = document.querySelector('[data-entry-id="' + data.editing.nextEntryId + '"]');
+    var editedEntry = renderJournalEntry(newEntryObject);
+    myList.replaceChild(editedEntry, pastEntry);
+    $entryForm.reset();
+    viewSwap('entries');
+    data.editing = null;
   }
-  // data.entries.unshift(journalEntry); // DON'T REMOVE THIS OR MOVE IT ANYWHERE IN THE CODE
-  $entryForm.reset();
 
   // On submit, do not hide the entries heading and NEW anchor
   entrySecondContainer.className = 'entries-second-container';
-
-  viewSwap('entries');
 }
 
 // VIEW ENTRIES
@@ -155,11 +150,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   // if there are entries on load, continue hiding 'no entries recorded'
   // if there are no entries, do not hide entries heading and NEW anchor
-  var entriesRecorded = document.querySelectorAll('.my-list-item');
+  var $myListItem = document.querySelectorAll('.my-list-item');
   var $noEntriesText = document.querySelector('p.no-record');
   var entrySecondContainer = document.querySelector('.entries-second-container');
 
-  if (entriesRecorded.length > 0) {
+  if ($myListItem.length > 0) {
     $noEntriesText.className = 'hidden no-record';
   } else {
     entrySecondContainer.className = 'entries-second-container';
@@ -171,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
   if (data.view === 'entry-form') {
     entrySecondContainer.className = 'entries-second-container hidden';
   }
-
 });
 
 // SWAP BETWEEN FORM AND ENTRIES VIEW
@@ -205,6 +199,7 @@ function hideForm() {
 function hideEntry() {
   $form.className = '';
   $entries.className = 'hidden';
+  $deleteAnchor.className = 'delete-anchor hidden';
   $entryForm.reset();
 }
 
@@ -234,18 +229,14 @@ function editEntry(event) {
 
   viewForm();
   $deleteAnchor.className = 'delete-anchor';
-  // $form.className = '';
-  // $entries.className = 'hidden';
 
   var listAncestor = event.target.closest('li');
   var listId = parseInt(listAncestor.getAttribute('data-entry-id'));
-  console.log('value of listId', listId);
+  // console.log('value of listId', listId);
 
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].nextEntryId === listId) {
-      console.log('value of data.entries[i].nextEntryId', data.entries[i].nextEntryId);
       data.editing = data.entries[i];
-      console.log('value of data.editing', data.editing);
     }
   }
 
@@ -253,7 +244,10 @@ function editEntry(event) {
   $photoField.value = data.editing.photoUrl;
   $notesField.value = data.editing.notes;
   $photoPreview.src = data.editing.photoUrl;
+
 }
+
+// DELETING AN ENTRY
 
 var $overlay = document.querySelector('.overlay');
 var $modalContainer = document.querySelector('.modal-container');
@@ -264,6 +258,7 @@ var $deleteAnchor = document.querySelector('.delete-anchor');
 $deleteAnchor.addEventListener('click', handleDelete);
 
 $cancelButton.addEventListener('click', handleCancel);
+$confirmButton.addEventListener('click', handleConfirm);
 
 function handleDelete() {
   $modalContainer.className = 'modal-container';
@@ -273,4 +268,10 @@ function handleDelete() {
 function handleCancel() {
   $modalContainer.className = 'modal-container hidden';
   $overlay.className = 'overlay hidden';
+}
+
+function handleConfirm() {
+
+  handleCancel();
+  viewEntry();
 }
