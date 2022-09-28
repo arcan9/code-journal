@@ -85,9 +85,25 @@ form {
   width: 100%;
 }
 
-.button-div {
+.save-delete-containter {
   display: flex;
+}
+
+.button-div {
   justify-content: right;
+}
+
+.delete-entry-div {
+  justify-content: left;
+}
+
+.delete-anchor {
+  color: red;
+  text-decoration: underline;
+}
+
+.delete-anchor:hover {
+  color: black;
 }
 
 .new-btn-div {
